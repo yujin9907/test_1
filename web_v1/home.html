@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YES24 티켓 - 클론 코딩</title>
+    <link rel="stylesheet" href="style_home.css">
+    <link rel="stylesheet" href="style_modal.css">
+    <link rel="stylesheet" href="style_login.css">
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <div class="header-top">
+            <div class="container">
+                <a href="#" onclick="openLoginModal()">로그인</a>
+                <!-- <a href="#">회원가입</a> -->
+                <a href="#" onclick="openLoginModal()">MY티켓</a>
+                <a href="#">고객센터</a>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">YES24 티켓</div>
+                    <div class="search-box">
+                        <input type="text" class="search-input" placeholder="공연명, 아티스트명을 입력하세요" id="searchInput">
+                        <button class="search-btn" onclick="performSearch()">검색</button>
+                    </div>
+                    <div class="user-menu">
+                        <a href="#" onclick="openLoginModal()">최근본상품</a>
+                        <a href="#" onclick="openLoginModal()">예매확인</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="nav">
+            <div class="container">
+                <div class="nav-menu">
+                    <a href="#" class="nav-item active" data-category="all">전체</a>
+                    <a href="#" class="nav-item" data-category="musical">뮤지컬</a>
+                    <a href="#" class="nav-item" data-category="concert">콘서트</a>
+                    <a href="#" class="nav-item" data-category="play">연극</a>
+                    <a href="#" class="nav-item" data-category="classic">클래식</a>
+                    <a href="#" class="nav-item" data-category="exhibition">전시</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 메인 슬라이더 -->
+    <section class="slider">
+        <div class="slide active">
+            <h2>뮤지컬 알라딘</h2>
+            <p>브로드웨이의 거대한 스펙타클이 한국에 상륙했습니다!</p>
+            <button class="slide-btn" onclick="openDetail('뮤지컬 알라딘', 1)">자세히 보기</button>
+        </div>
+        <div class="slide">
+            <h2>뮤지컬 위키드</h2>
+            <p>마법 같은 이야기가 펼쳐지는 환상적인 무대</p>
+            <button class="slide-btn" onclick="openDetail('뮤지컬 위키드', 2)">자세히 보기</button>
+        </div>
+        <div class="slide">
+            <h2>콘서트 하이라이트</h2>
+            <p>HIGHLIGHT LIVE 2025 [RIDE OR DIE] 티켓 오픈!</p>
+            <button class="slide-btn" onclick="openDetail('하이라이트 콘서트', 3)">자세히 보기</button>
+        </div>
+        <div class="slider-controls">
+            <span class="dot active" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+        </div>
+    </section>
+
+    <!-- 메인 컨텐츠 -->
+    <main class="main-content">
+        <div class="container">
+            <h2 class="section-title">🎭 추천 공연</h2>
+            
+            <!-- 카테고리 필터 -->
+            <div class="category-filter">
+                <button class="filter-btn active" data-filter="all">전체</button>
+                <button class="filter-btn" data-filter="musical">뮤지컬</button>
+                <button class="filter-btn" data-filter="concert">콘서트</button>
+                <button class="filter-btn" data-filter="play">연극</button>
+                <button class="filter-btn" data-filter="classic">클래식</button>
+                <button class="filter-btn" data-filter="exhibition">전시</button>
+            </div>
+
+            <!-- 로딩 -->
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>공연 정보를 불러오는 중...</p>
+            </div>
+
+            <!-- 공연 그리드 -->
+            <div class="performance-grid" id="performanceGrid">
+                <!-- JavaScript로 동적 생성 -->
+            </div>
+        </div>
+    </main>
+
+ <!-- 상세 페이지 모달 -->
+    <div class="modal" id="detailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">공연 상세정보</h2>
+                <button class="close-btn" onclick="closeModal(); hideBookingSection()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="performance-info">
+                    <div class="modal-image">공연 포스터</div>
+                    <div class="detail-info">
+                        <div class="detail-item">
+                            <div class="detail-label">공연기간</div>
+                            <div id="modalPeriod">2025.06.01 ~ 2025.09.30</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">공연장소</div>
+                            <div id="modalVenue">예스24 라이브홀</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">관람시간</div>
+                            <div id="modalRuntime">120분 (인터미션 15분)</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">관람등급</div>
+                            <div id="modalAge">8세 이상</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 10px;">줄거리</h3>
+                    <p id="modalDescription">환상적인 이야기가 펼쳐지는 감동적인 공연입니다. 최고의 배우들과 함께하는 잊지 못할 경험을 선사합니다.</p>
+                </div>
+
+                <!-- 예매 섹션 -->
+                <div class="booking-section" id="bookingSection" style="display: none;">
+                    <div class="booking-header">
+                        <h3 class="booking-title">날짜/시간 선택</h3>
+                        <span style="color: #ff6b35; font-size: 14px;">관람 2시간전 예매가능</span>
+                    </div>
+                    
+                    <div class="booking-content">
+                        <!-- 달력 -->
+                        <div class="calendar-container">
+                            <div class="calendar-header">
+                                <button class="nav-btn" onclick="changeMonth(-1)">‹</button>
+                                <div class="calendar-title" id="calendarTitle">2025. 06</div>
+                                <button class="nav-btn" onclick="changeMonth(1)">›</button>
+                            </div>
+                            <div class="calendar-grid" id="calendarGrid">
+                                <!-- 달력이 여기에 생성됩니다 -->
+                            </div>
+                        </div>
+
+                        <!-- 시간 선택 -->
+                        <div class="time-container">
+                            <div class="time-header">
+                                <span style="font-weight: bold;">회차 선택</span>
+                                <span class="selected-date" id="selectedDate">날짜를 선택하세요</span>
+                            </div>
+                            <div class="time-slots" id="timeSlots">
+                                <div class="no-shows">날짜를 먼저 선택해주세요</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="book-final-btn" id="bookFinalBtn" onclick="finalBooking()" disabled>
+                        예매하기
+                    </button>
+                </div>
+
+                <button class="book-final-btn" id="initialBookBtn" onclick="showBookingSection()">예매하기</button>
+            </div>
+        </div>
+    </div>
+        <!-- 로그인 모달 -->
+    <div class="modal" id="loginModal">
+        <div class="login-modal-content">
+            <div class="login-header">
+                <h2 class="login-title">YES24 로그인</h2>
+                <p class="login-subtitle">마법 같은 이야기가 펼쳐지는 환상적인 무대</p>
+                <button class="close-btn" onclick="closeLoginModal()" style="position: absolute; top: 15px; right: 20px; background: none; border: none; color: white; font-size: 24px; cursor: pointer;">&times;</button>
+            </div>
+            <div class="login-body">
+                <form class="login-form" onsubmit="handleLogin(event)">
+                    <div class="input-group">
+                        <label class="input-label">아이디</label>
+                        <input type="text" class="login-input" placeholder="아이디를 입력하세요" required>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">비밀번호</label>
+                        <input type="password" class="login-input" placeholder="비밀번호를 입력하세요" required>
+                    </div>
+                    <div class="login-options">
+                        <label class="remember-me">
+                            <input type="checkbox">
+                            <span>로그인 상태 유지</span>
+                        </label>
+                        <a href="#" class="forgot-password">비밀번호 찾기</a>
+                    </div>
+                    <button type="submit" class="login-btn">로그인</button>
+                </form>
+                
+                <div class="social-login">
+                    <p class="social-title">간편 로그인</p>
+                    <div class="social-buttons">
+                        <button class="social-btn kakao" onclick="socialLogin('kakao')">카카오</button>
+                        <button class="social-btn naver" onclick="socialLogin('naver')">네이버</button>
+                        <button class="social-btn google" onclick="socialLogin('google')">구글</button>
+                    </div>
+                </div>
+                
+                <div class="signup-link">
+                    아직 회원이 아니신가요? <a href="#" onclick="showSignup()">회원가입</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>고객센터</h3>
+                    <a href="#">1544-3800</a>
+                    <a href="#">평일 09:00~18:00</a>
+                    <a href="#">FAQ</a>
+                    <a href="#">1:1문의</a>
+                </div>
+                <div class="footer-section">
+                    <h3>이용안내</h3>
+                    <a href="#">이용약관</a>
+                    <a href="#">개인정보처리방침</a>
+                    <a href="#">취소/환불 안내</a>
+                    <a href="#">공지사항</a>
+                </div>
+                <div class="footer-section">
+                    <h3>회사정보</h3>
+                    <a href="#">회사소개</a>
+                    <a href="#">채용정보</a>
+                    <a href="#">제휴문의</a>
+                    <a href="#">광고문의</a>
+                </div>
+            </div>
+            <p>&copy; 2025 YES24 티켓. 클론 코딩 프로젝트 by 웹프로그래밍 수업</p>
+        </div>
+    </footer>
+
+    <script src="script_home.js"></script>
+    <script src="script_modal.js"></script>
+    <script src="script_login.js"></script>
+</body>
+</html>
