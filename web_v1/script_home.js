@@ -7,7 +7,8 @@ const performances = [
         venue: "샤롯데씨어터",
         period: "2025.06.01 ~ 2025.09.30",
         price: "77,000원~",
-        description: "브로드웨이의 거대한 스펙타클! 마법같은 무대와 화려한 의상으로 꾸며진 환상적인 뮤지컬"
+        description: "브로드웨이의 거대한 스펙타클! 마법같은 무대와 화려한 의상으로 꾸며진 환상적인 뮤지컬",
+        image: "./assets/sub8.jpg",
     },
     {
         id: 2,
@@ -16,7 +17,9 @@ const performances = [
         venue: "예스24스테이지",
         period: "2025.07.15 ~ 2025.10.31",
         price: "99,000원~",
-        description: "오즈의 마법사의 숨겨진 이야기. 엘파바와 글린다의 우정을 그린 감동적인 작품"
+        description: "오즈의 마법사의 숨겨진 이야기. 엘파바와 글린다의 우정을 그린 감동적인 작품",
+        image: "./assets/sub7.jpg",
+
     },
     {
         id: 3,
@@ -25,7 +28,9 @@ const performances = [
         venue: "올림픽공원 체조경기장",
         period: "2025.08.20 ~ 2025.08.21",
         price: "121,000원~",
-        description: "HIGHLIGHT LIVE 2025 [RIDE OR DIE] - 팬들과 함께하는 특별한 밤"
+        description: "HIGHLIGHT LIVE 2025 [RIDE OR DIE] - 팬들과 함께하는 특별한 밤",
+        image: "./assets/sub6.jpg",
+
     },
     {
         id: 4,
@@ -34,7 +39,9 @@ const performances = [
         venue: "대학로 소극장",
         period: "2025.06.10 ~ 2025.08.31",
         price: "35,000원~",
-        description: "혼자 사는 청춘들의 리얼한 이야기를 담은 공포 코미디 연극"
+        description: "혼자 사는 청춘들의 리얼한 이야기를 담은 공포 코미디 연극",
+        image: "./assets/sub5.jpg",
+
     },
     {
         id: 5,
@@ -43,7 +50,9 @@ const performances = [
         venue: "세종문화회관",
         period: "2025.07.01 ~ 2025.07.03",
         price: "30,000원~",
-        description: "KBS교향악단과 함께하는 베토벤의 대표작 '합창' 교향곡"
+        description: "KBS교향악단과 함께하는 베토벤의 대표작 '합창' 교향곡",
+        image: "./assets/sub4.jpg",
+
     },
     {
         id: 6,
@@ -52,7 +61,9 @@ const performances = [
         venue: "동대문디자인플라자",
         period: "2025.06.01 ~ 2025.12.31",
         price: "25,000원~",
-        description: "최신 디지털 기술로 구현한 몰입형 미디어 아트 전시"
+        description: "최신 디지털 기술로 구현한 몰입형 미디어 아트 전시",
+        image: "./assets/sub3.jpg",
+
     },
     {
         id: 7,
@@ -61,7 +72,9 @@ const performances = [
         venue: "대학로 자유극장",
         period: "2025.06.05 ~ 2025.08.30",
         price: "55,000원~",
-        description: "대학로 대표 깔깔극! 진심 가득한 땀방울로 빚어낸 코미디 뮤지컬"
+        description: "대학로 대표 깔깔극! 진심 가득한 땀방울로 빚어낸 코미디 뮤지컬",
+        image: "./assets/sub2.jpg",
+
     },
     {
         id: 8,
@@ -70,10 +83,39 @@ const performances = [
         venue: "KSPO DOME",
         period: "2025.09.14 ~ 2025.09.15",
         price: "132,000원~",
-        description: "아이유의 감성 가득한 콘서트 'Love wins all'"
+        description: "아이유의 감성 가득한 콘서트 'Love wins all'",
+        image: "./assets/sub1.jpg",
+
     }
 ];
 
+
+// 슬라이드 데이터 배열
+const slidesData = [
+    {
+        id: 1,
+        title: "뮤지컬 알라딘",
+        description: "브로드웨이의 거대한 스펙타클이 한국에 상륙했습니다!",
+        backgroundImage: "./assets/main1.jpg",
+        buttonText: "자세히 보기"
+    },
+    {
+        id: 2,
+        title: "뮤지컬 위키드",
+        description: "마법 같은 이야기가 펼쳐지는 환상적인 무대",
+        backgroundImage: "./assets/main2.jpg",
+        buttonText: "예매하기"
+    },
+    {
+        id: 3,
+        title: "콘서트 하이라이트",
+        description: "HIGHLIGHT LIVE 2025 [RIDE OR DIE] 티켓 오픈!",
+        backgroundImage: "./assets/main3.jpg",
+        buttonText: "티켓 구매"
+    }
+];
+
+let totalSlides = slidesData.length;
 let currentSlideIndex = 0;
 let currentFilter = 'all';
 let searchTerm = '';
@@ -81,7 +123,12 @@ let searchTerm = '';
 // DOM 로드 완료 후 실행
 document.addEventListener('DOMContentLoaded', function () {
     renderPerformances();
-    startSlideShow();
+    // startSlideShow();
+    // 자동 슬라이드 (5초마다)  
+    showSlide(0);
+    setInterval(() => {
+        changeSlide(1);
+    }, 5000);
     setupEventListeners();
 });
 
@@ -142,7 +189,7 @@ function renderPerformances() {
 
     grid.innerHTML = filteredPerformances.map(performance => `
                 <div class="performance-card" onclick="openDetail('${performance.title}', ${performance.id})" data-category="${performance.category}">
-                    <div class="card-image">
+                    <div class="card-image" style="background-image: url('${performance.image}');">
                         <div class="card-category">${getCategoryName(performance.category)}</div>
                     </div>
                     <div class="card-content">
@@ -225,6 +272,13 @@ function openDetail(title, id) {
     document.getElementById('modalRuntime').textContent = '120분 (인터미션 15분)';
     document.getElementById('modalAge').textContent = '8세 이상';
     document.getElementById('modalDescription').textContent = performance.description;
+    document.getElementById('modalImage').style.backgroundImage = `url('${performance.image}')`;
+
+    const modalImage = document.getElementById('modalImage');
+    modalImage.style.backgroundImage = `url('${performance.image}')`;
+    modalImage.style.backgroundSize = 'cover';
+    modalImage.style.backgroundPosition = 'center';
+    modalImage.textContent = ''; // 기존 텍스트 제거
 
     document.getElementById('detailModal').style.display = 'block';
     document.body.style.overflow = 'hidden';
@@ -236,29 +290,56 @@ function closeModal() {
     document.body.style.overflow = 'auto';
 }
 
-// 슬라이더 기능
-function startSlideShow() {
-    setInterval(() => {
-        currentSlideIndex = (currentSlideIndex + 1) % 3;
-        showSlide(currentSlideIndex);
-    }, 5000);
+// 슬라이드 데이터 업데이트 함수
+function updateSlideContent(index) {
+    const data = slidesData[index];
+    const slide = document.querySelector('.slide');
+
+    // 텍스트 내용 업데이트
+    document.getElementById('slide-title').textContent = data.title;
+    document.getElementById('slide-description').textContent = data.description;
+    document.getElementById('slide-button').textContent = data.buttonText;
+
+    // 배경 이미지 업데이트
+    slide.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('${data.backgroundImage}')`;
+
+    // 버튼 클릭 이벤트 업데이트
+    document.getElementById('slide-button').onclick = function () {
+        openDetail(data.title, data.id);
+    };
 }
 
+// 슬라이드 변경
+function changeSlide(direction) {
+    currentSlideIndex += direction;
+
+    if (currentSlideIndex >= totalSlides) {
+        currentSlideIndex = 0;
+    } else if (currentSlideIndex < 0) {
+        currentSlideIndex = totalSlides - 1;
+    }
+
+    showSlide(currentSlideIndex);
+}
+
+// 특정 슬라이드로 이동
 function currentSlide(n) {
     currentSlideIndex = n - 1;
     showSlide(currentSlideIndex);
 }
 
+// 슬라이드 표시 (데이터 업데이트 포함)
 function showSlide(n) {
-    const slides = document.querySelectorAll('.slide');
     const dots = document.querySelectorAll('.dot');
 
-    slides.forEach(slide => slide.classList.remove('active'));
+    // 점 활성화 상태 업데이트
     dots.forEach(dot => dot.classList.remove('active'));
-
-    slides[n].classList.add('active');
     dots[n].classList.add('active');
+
+    // 슬라이드 내용 업데이트
+    updateSlideContent(n);
 }
+
 
 // 브라우저 객체 모델 활용 (12주차 내용)
 function getDeviceInfo() {
