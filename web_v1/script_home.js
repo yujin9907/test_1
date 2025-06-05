@@ -287,6 +287,7 @@ function openDetail(title, id) {
 
 // // 모달 닫기
 function closeModal() {
+    hideBookingSection();
     document.getElementById('detailModal').style.display = 'none';
     document.body.style.overflow = 'auto';
 }
@@ -423,19 +424,6 @@ window.debugFunctions = {
 };
 
 
-// 예매하기
-function bookTicket() {
-    alert('예매 페이지로 이동합니다!\n(실제 서비스에서는 예매 시스템과 연동됩니다)');
-    closeModal();
-}
-
-// 예매 페이지 열기
-function showBooking() {
-    closeModal();
-    document.getElementById('bookingModal').style.display = 'block';
-    document.body.style.overflow = 'hidden';
-    generateCalendar();
-}
 
 // 예매 페이지 닫기
 function closeBooking() {
@@ -564,8 +552,5 @@ function updateBookingConfirmButton() {
     }
 }
 
-// 예매 확정
-function confirmBooking() {
-    showLogin();
-}
+
 

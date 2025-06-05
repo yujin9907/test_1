@@ -233,7 +233,7 @@ body {
     font-size: 14px;
 }
 
-ㅑ .filter-btn:hover,
+.filter-btn:hover,
 .filter-btn.active {
     background: #ff6b35;
     color: white;
