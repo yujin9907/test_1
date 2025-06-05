@@ -148,7 +148,8 @@ function setupEventListeners() {
     // 카테고리 필터 버튼 클릭
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', function () {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.filter-btn')
+            .forEach(b => b.classList.remove('active'));
             this.classList.add('active');
             currentFilter = this.dataset.filter;
             filterPerformances();
@@ -356,27 +357,6 @@ function getDeviceInfo() {
     return info;
 }
 
-// 위치 정보 서비스 (14주차 내용)
-function getNearbyVenues() {
-    if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(
-            function (position) {
-                const lat = position.coords.latitude;
-                const lng = position.coords.longitude;
-                console.log(`위치: ${lat}, ${lng}`);
-
-                // 실제 서비스에서는 위치 기반 공연장 추천
-                alert(`현재 위치 기준으로 가까운 공연장을 추천해드립니다!\n위도: ${lat.toFixed(4)}, 경도: ${lng.toFixed(4)}`);
-            },
-            function (error) {
-                console.log('위치 정보를 가져올 수 없습니다:', error.message);
-                alert('위치 서비스를 사용할 수 없습니다.');
-            }
-        );
-    } else {
-        alert('이 브라우저는 위치 서비스를 지원하지 않습니다.');
-    }
-}
 
 // 로컬 스토리지 활용 (최근 본 상품 - 메모리 저장으로 대체)
 let recentlyViewed = [];
@@ -394,18 +374,6 @@ function addToRecentlyViewed(performanceId) {
         }
         console.log('최근 본 상품:', recentlyViewed);
     }
-}
-
-// Math 객체 활용 (9주차 내용)
-function calculateDistance(lat1, lng1, lat2, lng2) {
-    const R = 6371; // 지구 반지름 (km)
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLng = (lng2 - lng1) * Math.PI / 180;
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-        Math.sin(dLng / 2) * Math.sin(dLng / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;
 }
 
 // String 메소드 활용 (9주차 내용)

@@ -2,7 +2,7 @@ let currentDate = new Date();
 let selectedDate = null;
 let selectedTime = null;
 
-// 예매 가능한 시간표 데이터 (실제로는 서버에서 받아올 데이터)
+// 예매 가능한 시간표 데이터 
 const showTimes = {
     // 요일별 상영시간 (0: 일요일, 1: 월요일, ...)
     0: ['10:00', '14:00', '17:00'], // 일요일

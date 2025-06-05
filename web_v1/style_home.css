@@ -251,9 +251,7 @@ body {
 .performance-card {
     width: 100%;
     max-width: 300px;
-    /* 📌 일정 크기 고정 */
     height: 420px;
-    /* 📌 고정 높이 */
     margin: 0 auto;
     /* 가운데 정렬 */
     display: flex;

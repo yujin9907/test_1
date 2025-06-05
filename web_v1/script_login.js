@@ -11,7 +11,6 @@ function handleLogin(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
 
-    // 실제로는 서버로 로그인 요청을 보내야 합니다
     alert('로그인 성공! (데모)');
     closeLoginModal();
 
